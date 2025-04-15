@@ -46,11 +46,12 @@
 	$.getJSON($('link[rel="splits"]').attr("href"), function(data) {
   		 var geojson = L.geoJson(data, {
         	  onEachFeature: function (feature, layer) {
-		   var stageID = feature.properties.number;   
-		   var popUpHTML = feature.properties.starting + ' TO ' + feature.properties.ending;
-		   popUpHTML = popUpHTML + '<br/>LEADER: ' + feature.properties.leader;
-		   popUpHTML = popUpHTML + '<br/>Number: ' + stageID;
+					var stageID = feature.properties.number;   
+					var popUpHTML = feature.properties.starting + ' TO ' + feature.properties.ending;
+					popUpHTML = popUpHTML + '<br/>LEADER: ' + feature.properties.leader;
+					popUpHTML = popUpHTML + '<br/>Number: ' + stageID;
                    layer.bindPopup(popUpHTML);
+				   layer.bindToolTip(stageID);
                 },
 		style: function(feature) {
     			if (isEven(feature.properties.number)) { return {color: "#0000ff"} }			
