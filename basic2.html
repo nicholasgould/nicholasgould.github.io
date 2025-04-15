@@ -44,8 +44,12 @@
 	};
 	function resetHighlight(e) {
 		var layer = e.target;
-		layer.resetStyle(e.target);
+		layer.setStyle({
+			color: 'blue'
+		});
 	};
+	
+	
 	
 	
 	const map = L.map('map').setView([50.7, -3.7], 9);
@@ -70,9 +74,8 @@
 				   
                 },
 		style: function(feature) {
-    			if (isEven(feature.properties.number)) { return {color: "#0000ff"} }			
-			else {return {color: "#00a9ff"}
-			};
+    		return {color: 'blue'}
+			
     		 }    
          });
 		geojson.addTo(map);
