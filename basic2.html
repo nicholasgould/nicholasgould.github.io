@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<base target="_top">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>MFM SWCP 2026</title>
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		.leaflet-container {
+			height: 100%;
+			width: 100%;
+			max-width: 100%;
+			max-height: 100%;
+		}
+	</style>
+	<link rel="splits" type="application/json" href="stages.json">
+</head>
+<body>
+
+
+
+<div id="map" style="width: 100%; height: 100%;"></div>
+
+<script>
+	function isEven(n) {
+   		return n % 2 == 0;
+	}
+	function highlightFeature(e) {
+		var layer = e.target;
+		layer.setStyle({
+			color: 'red'
+		});
+	};
+	function resetHighlight(e) {
+		var layer = e.target;
+		layer.resetStyle(e.target);
+	};
+	
+	
+	const map = L.map('map').setView([50.7, -3.7], 9);
+
+	const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 19,
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+	}).addTo(map);
+
+	$.getJSON($('link[rel="splits"]').attr("href"), function(data) {
+  		 var geojson = L.geoJson(data, {
+        	  onEachFeature: function (feature, layer) {
+					var stageID = feature.properties.number;   
+					var popUpHTML = feature.properties.starting + ' TO ' + feature.properties.ending;
+					popUpHTML = popUpHTML + '<br/>LEADER: ' + feature.properties.leader;
+					popUpHTML = popUpHTML + '<br/>Number: ' + stageID;
+                   layer.bindPopup(popUpHTML);
+				   layer.bindTooltip('Stage:' + stageID);
+				   
+				   layer.on({mouseover: highlightFeature, mouseout: resetHighlight});
+				   
+				   
+                },
+		style: function(feature) {
+    			if (isEven(feature.properties.number)) { return {color: "#0000ff"} }			
+			else {return {color: "#00a9ff"}
+			};
+    		 }    
+         });
+		geojson.addTo(map);
+	});
+</script>
+
+
+
+</body>
+</html>
