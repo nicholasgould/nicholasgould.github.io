@@ -33,7 +33,9 @@
 <div id="map" style="width: 100%; height: 100%;"></div>
 
 <script>
-
+	function isEven(n) {
+   		return n % 2 == 0;
+	}
 	const map = L.map('map').setView([50.7, -3.7], 9);
 
 	const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -49,7 +51,14 @@
 		   popUpHTML = popUpHTML + '<br/>LEADER: ' + feature.properties.leader;
 		   popUpHTML = popUpHTML + '<br/>Number: ' + stageID;
                    layer.bindPopup(popUpHTML);
-                }
+                },
+		style: function(feature) {
+    			if (isEven(feature.properties.number) { return {color: "#ff0000"} }			
+			else {return {color: "#ffff00"}
+			};
+     } 
+   }
+
               });
 		geojson.addTo(map);
 	});
