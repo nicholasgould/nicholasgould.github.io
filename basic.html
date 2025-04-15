@@ -44,7 +44,7 @@
 	$.getJSON($('link[rel="splits"]').attr("href"), function(data) {
   		 var geojson = L.geoJson(data, {
         	   onEachFeature: function (feature, layer) {
-                  layer.bindPopup(feature.properties.starting);
+                  layer.bindPopup(feature.properties.starting + ' TO ' + feature.properties.ending);
                 }
               });
 		geojson.addTo(map);
