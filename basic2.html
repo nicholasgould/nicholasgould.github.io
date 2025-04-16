@@ -62,10 +62,14 @@
 	$.getJSON($('link[rel="splits"]').attr("href"), function(data) {
   		 var geojson = L.geoJson(data, {
         	  onEachFeature: function (feature, layer) {
-					var stageID = feature.properties.number;   
+					var stageID = feature.properties.number;
+			  		var leader = feature.properties.leader;
+			  		if (leader === null) {leader = 'TBC'}
+			  		var walk_date = feature.properties.walk_date;
+			  		if (walk_date === null) {wlak_date = 'TBC'}
 					var popUpHTML = feature.properties.starting + ' TO ' + feature.properties.ending;
 			  		popUpHTML = popUpHTML + '<br/>DISTANCE: ' + feature.properties.distance + ' miles';
-					popUpHTML = popUpHTML + '<br/>LEADER: <em>' + feature.properties.leader + '</em>';
+					popUpHTML = popUpHTML + '<br/>LEADER: <em>' + leader + '</em>';
 					popUpHTML = popUpHTML + '<br/>WALK DATE: ' + feature.properties.walk_date;
                    layer.bindPopup(popUpHTML);
 				   layer.bindTooltip('Stage:' + stageID);
