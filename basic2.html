@@ -65,7 +65,7 @@
 					var stageID = feature.properties.number;   
 					var popUpHTML = feature.properties.starting + ' TO ' + feature.properties.ending;
 					popUpHTML = popUpHTML + '<br/>LEADER: ' + feature.properties.leader;
-					popUpHTML = popUpHTML + '<br/>Number: ' + stageID;
+					popUpHTML = popUpHTML + '<br/>WALK DATE: ' + feature.properties.walk_date;
                    layer.bindPopup(popUpHTML);
 				   layer.bindTooltip('Stage:' + stageID);
 				   
