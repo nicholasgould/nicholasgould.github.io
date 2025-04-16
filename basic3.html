@@ -70,7 +70,7 @@
 			  		popUpHTML = popUpHTML + '<br/>DISTANCE: ' + feature.properties.distance + ' miles';
 					popUpHTML = popUpHTML + '<br/>LEADER: <em>' + leader + '</em>';
 					popUpHTML = popUpHTML + '<br/>WALK DATE: <strong>' + walk_date + '</strong>';
-			  		popUpHTML = popUpHTML + '<br/><a href=\' + link + '\'>link to SWCP</a>';
+			  		popUpHTML = popUpHTML + '<br/><a href=\'' + link + '\'>link to SWCP</a>';
                    layer.bindPopup(popUpHTML);
 				   layer.bindTooltip('Stage:' + stageID);				   
 				   layer.on({mouseover: highlightFeature, mouseout: resetHighlight});
