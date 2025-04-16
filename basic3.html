@@ -68,7 +68,8 @@
 			  		if (leader === null) {leader = 'TBC'}
 			  		var walk_date = feature.properties.walk_date;
 			  		if (walk_date === null) {walk_date = 'TBC'}
-					var popUpHTML = feature.properties.starting + ' TO ' + feature.properties.ending;
+					var popUpHTML = '<strong>Stage: ' + stageID + '</strong>';
+					popUpHTML = popUpHTML +	'<br/>' + feature.properties.starting + ' TO ' + feature.properties.ending;
 			  		popUpHTML = popUpHTML + '<br/>DISTANCE: ' + feature.properties.distance + ' miles';
 					popUpHTML = popUpHTML + '<br/>LEADER: <em>' + leader + '</em>';
 					popUpHTML = popUpHTML + '<br/>WALK DATE: <strong>' + walk_date + '</strong>';
