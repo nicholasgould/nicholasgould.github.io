@@ -84,7 +84,7 @@
                    		layer.bindPopup(popUpHTML);
 				layer.bindTooltip('Stage:' + stageID);				   
 				layer.on({mouseover: highlightFeature, mouseout: resetHighlight});
-				console.log(feature.properties.toString())
+				console.log(feature.properties)
 				//layer.on({mouseover: highlightFeature, mouseout: resetHighlight, click: zoomToStage});
 				stages.addLayer(layer);
                		},
