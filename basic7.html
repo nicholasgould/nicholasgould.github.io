@@ -86,8 +86,7 @@
 				popUpHTML = popUpHTML + '<br/>WALK DATE: <strong>' + walk_date + '</strong>';
 				popUpHTML = popUpHTML + '<br/><a href=\'' + link + '\'>link to SWCP</a>';
                    		layer.bindPopup(popUpHTML);
-				layer.bindTooltip('Stage:' + stageID);				   
-				layer.setIcon(stopIcon);
+				layer.bindTooltip('Stage:' + stageID);				   				
 				//console.log(feature.geometry.coordinates)
 				//console.log(layer.getBounds())
 				featureBounds = layer.getBounds();
@@ -108,6 +107,7 @@
 					stop_name = feature.properties.stop;
 					var popUpHTML = feature.properties.stop;
 					layer.bindPopup(popUpHTML);
+					layer.setIcon(stopIcon);
 					stops.addLayer(layer);
 				}
 			});		
