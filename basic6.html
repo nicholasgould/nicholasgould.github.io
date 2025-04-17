@@ -44,13 +44,12 @@
 		layer.setStyle({
 			color: 'blue'
 		});
-		console.log('blue');
 	};
 	function zoomToStage(e) {
 	//set extents to the selected polyline
 		var layer = e.target;
 		console.log(layer.getBounds());
-		//myMap.fitBounds(e.getBounds);		
+		myMap.fitBounds(layer.getBounds());		
 	}
 	
 	
