@@ -49,55 +49,72 @@
 			color: 'blue'
 		});
 	};
-		
-	const map = L.map('map').setView([50.7, -3.7], 9);
-	const stages = L.layerGroup(); //NEW
-	const stops = L.layerGroup();  //NEW
-	const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-		maxZoom: 19,
-		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-	}).addTo(map);
 
-	$.getJSON($('link[rel="stages"]').attr("href"), function(data) {
-  		 var geojson = L.geoJson(data, {
-        	  onEachFeature: function (feature, layer) {
-			var stageID = feature.properties.number;
-			var leader = feature.properties.leader;
-			if (leader === null) {leader = 'TBC'}
-			var walk_date = feature.properties.walk_date;
-			if (walk_date === null) {walk_date = 'TBC'}
-			var link = feature.properties.link;
-			var popUpHTML = '<strong>Stage: ' + stageID + '</strong><br/>';
-			popUpHTML = popUpHTML +	'<br/>' + feature.properties.starting + ' TO ' + feature.properties.ending;
-			popUpHTML = popUpHTML + '<br/>DISTANCE: ' + feature.properties.distance + ' miles';
-			popUpHTML = popUpHTML + '<br/>LEADER: <em>' + leader + '</em>';
-			popUpHTML = popUpHTML + '<br/>WALK DATE: <strong>' + walk_date + '</strong>';
-			popUpHTML = popUpHTML + '<br/><a href=\'' + link + '\'>link to SWCP</a>';
-                   	layer.bindPopup(popUpHTML);
-			layer.bindTooltip('Stage:' + stageID);				   
-			layer.on({mouseover: highlightFeature, mouseout: resetHighlight});
-			stages.addLayer(layer); //NEW
-               },
-		style: function(feature) {
-			return {color: 'blue'}			
-    		}  
-         });
-	//	geojson.addTo(map); // REMOVED
-	});
-	
-	$.getJSON($('link[rel="stops"]').attr("href"), function(data) {
-		var geojson2 = L.geoJson(data, {
-			onEachFeature: function (feature, layer) {
-				stop_name = feature.properties.stop;
-				var popUpHTML = feature.properties.stop;
-				layer.bindPopup(popUpHTML);
-			}
+	function init() {
+		var basicMap  = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			maxZoom: 19,
+			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 		});
-		geojson2.addTo(map);
-	});
+		var stages = L.layerGroup(); 
+		var stops = L.layerGroup();  
 	
+	//const map = L.map('map').setView([50.7, -3.7], 9);
+
+		// get stages data from geojson file and add to 'stages' layer...
+		$.getJSON($('link[rel="stages"]').attr("href"), function(data) {
+  			 var geojson = L.geoJson(data, {
+        	  	onEachFeature: function (feature, layer) {
+				var stageID = feature.properties.number;
+				var leader = feature.properties.leader;
+				if (leader === null) {leader = 'TBC'}
+				var walk_date = feature.properties.walk_date;
+				if (walk_date === null) {walk_date = 'TBC'}
+				var link = feature.properties.link;
+				var popUpHTML = '<strong>Stage: ' + stageID + '</strong><br/>';
+				popUpHTML = popUpHTML +	'<br/>' + feature.properties.starting + ' TO ' + feature.properties.ending;
+				popUpHTML = popUpHTML + '<br/>DISTANCE: ' + feature.properties.distance + ' miles';
+				popUpHTML = popUpHTML + '<br/>LEADER: <em>' + leader + '</em>';
+				popUpHTML = popUpHTML + '<br/>WALK DATE: <strong>' + walk_date + '</strong>';
+				popUpHTML = popUpHTML + '<br/><a href=\'' + link + '\'>link to SWCP</a>';
+                   		layer.bindPopup(popUpHTML);
+				layer.bindTooltip('Stage:' + stageID);				   
+				layer.on({mouseover: highlightFeature, mouseout: resetHighlight});
+				stages.addLayer(layer); //NEW
+               		},
+			style: function(feature) {
+				return {color: 'blue'}			
+    			}  
+         		});	
+		});
 	
+		// get stops data from geojson file and add to 'stops' layer...
+		$.getJSON($('link[rel="stops"]').attr("href"), function(data) {
+			var geojson2 = L.geoJson(data, {
+				onEachFeature: function (feature, layer) {
+					stop_name = feature.properties.stop;
+					var popUpHTML = feature.properties.stop;
+					layer.bindPopup(popUpHTML);
+				}
+			});		
+		});
 	
+		var overlayMaps = {
+    			   "Stages": stages,
+			   "Stops": stops			
+		};
+
+		myMap = L.map('map', {
+    			center: [50.7, -3.7],
+			zoom: 9,
+			layers: [stages, stops]
+		});
+		basicMap.addTo(myMap);
+    		L.control.layers(null,overlayMaps).addTo(myMap);
+
+
+		
+
+	} // end function 'init'
 </script>
 
 
