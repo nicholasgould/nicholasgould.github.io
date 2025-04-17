@@ -44,6 +44,12 @@
 			color: 'blue'
 		});
 	};
+	function zoomToStage(e) {
+	//set extents to the selected polyline
+		var layer = e.target;
+	}
+	
+	
 
 	function init() {
 		var basicMap  = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -78,6 +84,8 @@
                    		layer.bindPopup(popUpHTML);
 				layer.bindTooltip('Stage:' + stageID);				   
 				layer.on({mouseover: highlightFeature, mouseout: resetHighlight});
+				console.write(feature.properties.tostring)
+				//layer.on({mouseover: highlightFeature, mouseout: resetHighlight, click: zoomToStage});
 				stages.addLayer(layer);
                		},
 			style: function(feature) {
