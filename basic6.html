@@ -48,7 +48,8 @@
 	};
 	function zoomToStage(e) {
 	//set extents to the selected polyline
-		console.log(e.getBounds());
+		var layer = e.target;
+		console.log(layer.getBounds());
 		//myMap.fitBounds(e.getBounds);		
 	}
 	
