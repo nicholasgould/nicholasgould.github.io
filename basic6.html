@@ -48,6 +48,7 @@
 	function zoomToStage(featureBounds) {
 	//set extents to the selected polyline
 		myMap.fitBounds(featureBounds);
+		console.log('AAAAA');
 	}
 	
 	
@@ -86,7 +87,7 @@
 				layer.bindTooltip('Stage:' + stageID);				   
 				
 				//console.log(feature.geometry.coordinates)
-				console.log(layer.getBounds())
+				//console.log(layer.getBounds())
 				featureBounds = layer.getBounds();
 				//layer.on({mouseover: highlightFeature, mouseout: resetHighlight});
 				layer.on({mouseover: highlightFeature, mouseout: resetHighlight, click: zoomToStage(featureBounds)});
