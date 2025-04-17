@@ -31,6 +31,7 @@
 
 <script>
 	var myMap;
+	var stopIcon = L.AwesomeMarkers.icon({icon: 'coffee', prefix: 'fa', markerColor: 'red', iconColor: '#f28f82'});
 	function isEven(n) {
    		return n % 2 == 0;
 	}
@@ -53,7 +54,9 @@
 		myMap.fitBounds(layer.getBounds());		
 	}
 	
-	
+	function createMarker(feature, latlng) {
+  		return L.marker(latlng, {icon: stopIcon});
+	}
 
 	function init() {
 		var basicMap  = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -65,7 +68,7 @@
 			attribution: '&copy; <a href="https://www.arcgis.com/home/item.html?id=c03a526d94704bfb839445e80de95495">ESRI</a>'
 		});
 
-		var stopIcon = L.AwesomeMarkers.icon({icon: 'coffee', prefix: 'fa', markerColor: 'red', iconColor: '#f28f82'});
+		
 		var stages = L.layerGroup(); 
 		var stops = L.layerGroup();  
 	
@@ -103,11 +106,12 @@
 		// get stops data from geojson file and add to 'stops' layer...
 		$.getJSON($('link[rel="stops"]').attr("href"), function(data) {
 			var geojson2 = L.geoJson(data, {
+				pointToLayer: createMarker,
 				onEachFeature: function (feature, layer) {
 					stop_name = feature.properties.stop;
 					var popUpHTML = feature.properties.stop;
 					layer.bindPopup(popUpHTML);
-					layer.setIcon(stopIcon);
+					//layer.setIcon(stopIcon);
 					stops.addLayer(layer);
 				}
 			});		
