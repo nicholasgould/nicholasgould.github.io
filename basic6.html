@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<base target="_top">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>MFM SWCP 2026</title>
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		.leaflet-container {
+			height: 100%;
+			width: 100%;
+			max-width: 100%;
+			max-height: 100%;
+		}
+	</style>
+	<link rel="stages" type="application/json" href="stages.json">
+	<link rel="stops" type="application/json" href="stops.json">
+
+
+<script>
+	function isEven(n) {
+   		return n % 2 == 0;
+	}
+	function highlightFeature(e) {
+		var layer = e.target;
+		layer.setStyle({
+			color: 'red'
+		});
+	};
+	function resetHighlight(e) {
+		var layer = e.target;
+		layer.setStyle({
+			color: 'blue'
+		});
+	};
+
+	function init() {
+		var basicMap  = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			maxZoom: 19,
+			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+		});
+		var satelliteMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+			maxZoom: 19,
+			attribution: '&copy; <a href="https://www.arcgis.com/home/item.html?id=c03a526d94704bfb839445e80de95495">ESRI</a>'
+		});
+
+		
+		var stages = L.layerGroup(); 
+		var stops = L.layerGroup();  
+	
+		// get stages data from geojson file and add to 'stages' layer...
+		$.getJSON($('link[rel="stages"]').attr("href"), function(data) {
+  			 var geojson = L.geoJson(data, {
+        	  	onEachFeature: function (feature, layer) {
+				var stageID = feature.properties.number;
+				var leader = feature.properties.leader;
+				if (leader === null) {leader = 'TBC'}
+				var walk_date = feature.properties.walk_date;
+				if (walk_date === null) {walk_date = 'TBC'}
+				var link = feature.properties.link;
+				var popUpHTML = '<strong>Stage: ' + stageID + '</strong><br/>';
+				popUpHTML = popUpHTML +	'<br/>' + feature.properties.starting + ' TO ' + feature.properties.ending;
+				popUpHTML = popUpHTML + '<br/>DISTANCE: ' + feature.properties.distance + ' miles';
+				popUpHTML = popUpHTML + '<br/>LEADER: <em>' + leader + '</em>';
+				popUpHTML = popUpHTML + '<br/>WALK DATE: <strong>' + walk_date + '</strong>';
+				popUpHTML = popUpHTML + '<br/><a href=\'' + link + '\'>link to SWCP</a>';
+                   		layer.bindPopup(popUpHTML);
+				layer.bindTooltip('Stage:' + stageID);				   
+				layer.on({mouseover: highlightFeature, mouseout: resetHighlight});
+				stages.addLayer(layer);
+               		},
+			style: function(feature) {
+				return {color: 'blue'}			
+    			}  
+         		});	
+		});
+	
+		// get stops data from geojson file and add to 'stops' layer...
+		$.getJSON($('link[rel="stops"]').attr("href"), function(data) {
+			var geojson2 = L.geoJson(data, {
+				onEachFeature: function (feature, layer) {
+					stop_name = feature.properties.stop;
+					var popUpHTML = feature.properties.stop;
+					layer.bindPopup(popUpHTML);
+					stops.addLayer(layer);
+				}
+			});		
+		});
+	
+		var overlayMaps = {
+    			   "Stages": stages,
+			   "Stops": stops			
+		};
+		var baseMaps = {
+  			"OpenStreetMap": basicMap,
+    			"ESRI Satellite": satelliteMap    			
+		};
+
+		
+		myMap = L.map('map', {
+    			center: [50.7, -3.7],
+			zoom: 9,
+			layers: [stages, stops]
+		});
+		basicMap.addTo(myMap);
+    		L.control.layers(baseMaps,overlayMaps,{collapsed:false}).addTo(myMap);
+
+	} // end function 'init'
+</script>
+</head>
+<body onLoad="javascript:init();">
+	<div id="map" style="width: 100%; height: 100%;"></div>
+</body>
+</html>
