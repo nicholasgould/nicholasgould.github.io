@@ -29,6 +29,7 @@
 
 
 <script>
+	var myMap;
 	function isEven(n) {
    		return n % 2 == 0;
 	}
@@ -44,9 +45,9 @@
 			color: 'blue'
 		});
 	};
-	function zoomToStage(e) {
+	function zoomToStage(featureBounds) {
 	//set extents to the selected polyline
-		var layer = e.target;
+		myMap.fitBounds(featureBounds);
 	}
 	
 	
@@ -83,10 +84,12 @@
 				popUpHTML = popUpHTML + '<br/><a href=\'' + link + '\'>link to SWCP</a>';
                    		layer.bindPopup(popUpHTML);
 				layer.bindTooltip('Stage:' + stageID);				   
-				layer.on({mouseover: highlightFeature, mouseout: resetHighlight});
+				
 				//console.log(feature.geometry.coordinates)
 				console.log(layer.getBounds())
-				//layer.on({mouseover: highlightFeature, mouseout: resetHighlight, click: zoomToStage});
+				featureBounds = layer.getBounds();
+				//layer.on({mouseover: highlightFeature, mouseout: resetHighlight});
+				layer.on({mouseover: highlightFeature, mouseout: resetHighlight, click: zoomToStage(featureBounds)});
 				stages.addLayer(layer);
                		},
 			style: function(feature) {
