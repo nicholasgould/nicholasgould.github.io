@@ -46,9 +46,9 @@
 		});
 		console.log('blue');
 	};
-	function zoomToStage(featureBounds) {
+	function zoomToStage(e) {
 	//set extents to the selected polyline
-		myMap.fitBounds(featureBounds);
+		myMap.fitBounds(e.getBounds);
 		console.log(featureBounds);		
 	}
 	
@@ -91,7 +91,7 @@
 				//console.log(layer.getBounds())
 				featureBounds = layer.getBounds();
 				//layer.on({mouseover: highlightFeature, mouseout: resetHighlight});
-				layer.on({mouseover: highlightFeature, mouseout: resetHighlight, click: zoomToStage(featureBounds)});
+				layer.on({mouseover: highlightFeature, mouseout: resetHighlight, click: zoomToStage});
 				stages.addLayer(layer);
                		},
 			style: function(feature) {
