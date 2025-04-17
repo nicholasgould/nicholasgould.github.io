@@ -84,7 +84,7 @@
                    		layer.bindPopup(popUpHTML);
 				layer.bindTooltip('Stage:' + stageID);				   
 				layer.on({mouseover: highlightFeature, mouseout: resetHighlight});
-				console.log(feature.geometry)
+				console.log(feature.geometry.coordinates)
 				//layer.on({mouseover: highlightFeature, mouseout: resetHighlight, click: zoomToStage});
 				stages.addLayer(layer);
                		},
