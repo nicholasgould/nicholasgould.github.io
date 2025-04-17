@@ -74,7 +74,7 @@
                    		layer.bindPopup(popUpHTML);
 				layer.bindTooltip('Stage:' + stageID);				   
 				layer.on({mouseover: highlightFeature, mouseout: resetHighlight});
-				stages.addLayer(layer); //NEW
+				stages.addLayer(layer);
                		},
 			style: function(feature) {
 				return {color: 'blue'}			
@@ -89,6 +89,7 @@
 					stop_name = feature.properties.stop;
 					var popUpHTML = feature.properties.stop;
 					layer.bindPopup(popUpHTML);
+					stops.addLayer(layer);
 				}
 			});		
 		});
