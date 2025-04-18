@@ -142,6 +142,16 @@
 		basicMap.addTo(myMap);
     		L.control.layers(baseMaps,overlayMaps,{collapsed:false}).addTo(myMap);
 
+		var redMarker = L.ExtraMarkers.icon({
+  			icon: 'fa-coffee',
+		    	markerColor: 'red',
+		    	shape: 'square',
+		    	prefix: 'fa'
+		});
+		L.marker([50.7, -3.7], {icon: redMarker}).addTo(map);
+
+
+		
 	} // end function 'init'
 </script>
 </head>
