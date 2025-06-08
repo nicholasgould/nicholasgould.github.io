@@ -111,13 +111,11 @@
 	
 		// get stops data from geojson file and add to 'stops' layer...
 		$.getJSON($('link[rel="stops"]').attr("href"), function(data) {
-			var geojson2 = L.geoJson(data, {
-				
+			var geojson2 = L.geoJson(data, {				
 				pointToLayer: function (feature, latlng) {
 			  		 var myIcon = blueIcon;			      
                           	return L.marker(latlng, {icon: myIcon});
-                        	},
-				
+                        	},				
 				onEachFeature: function (feature, layer) {
 					stop_name = feature.properties.stop;
 					var popUpHTML = feature.properties.stop;
@@ -130,6 +128,10 @@
 		// get events data from geojson file and add to 'stops' layer...
 		$.getJSON($('link[rel="events"]').attr("href"), function(data) {
 			var geojson3 = L.geoJson(data, {
+				pointToLayer: function (feature, latlng) {
+			  		 var myIcon = redIcon;			      
+                          	return L.marker(latlng, {icon: myIcon});
+                        	},
 				onEachFeature: function (feature, layer) {
 					var event_name = feature.properties.name;
 					var event_date = feature.properties.date;
