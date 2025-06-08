@@ -94,12 +94,8 @@
 				popUpHTML = popUpHTML + '<br/>WALK DATE: <strong>' + walk_date + '</strong>';
 				popUpHTML = popUpHTML + '<br/><a href=\'' + link + '\'>link to SWCP</a>';
                    		layer.bindPopup(popUpHTML);
-				layer.bindTooltip('Stage:' + stageID);				   
-				
-				//console.log(feature.geometry.coordinates)
-				//console.log(layer.getBounds())
-				featureBounds = layer.getBounds();
-				//layer.on({mouseover: highlightFeature, mouseout: resetHighlight});
+				layer.bindTooltip('Stage:' + stageID);
+				featureBounds = layer.getBounds();				
 				layer.on({mouseover: highlightFeature, mouseout: resetHighlight, click: zoomToStage});
 				stages.addLayer(layer);
                		},
