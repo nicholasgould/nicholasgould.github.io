@@ -114,10 +114,14 @@
 		$.getJSON($('link[rel="events"]').attr("href"), function(data) {
 			var geojson3 = L.geoJson(data, {
 				onEachFeature: function (feature, layer) {
-					event_name = feature.properties.name;
-					event_date = feature.properties.date;
+					var event_name = feature.properties.name;
+					var event_date = feature.properties.date;
+					var event_description = feature.properties.descript;
+					var event_link = feature.properties.link;
 					var popUpHTML = '<strong>' + event_name + '</strong><br/>';
-					var popUpHTML = '<strong>Date: ' + event_date + '</strong><br/>';
+					popUpHTML = popUpHTML + '<strong>Date: ' + event_date + '</strong><br/><br/>';
+					popUpHTML = popUpHTML +  event_description + '<br/><br/>';
+					popUpHTML = popUpHTML + '<br/><a href=\'' + event_link + '\'>More...</a>';
 					layer.bindPopup(popUpHTML);
 					events.addLayer(layer);
 				}
