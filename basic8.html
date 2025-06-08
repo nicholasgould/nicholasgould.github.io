@@ -27,7 +27,7 @@
 	</style>
 	<link rel="stages" type="application/json" href="stages.json">
 	<link rel="stops" type="application/json" href="stops.json">
-
+	<link rel="stops" type="application/json" href="events.json">
 
 <script>
 	var myMap;
@@ -52,9 +52,6 @@
 		console.log(layer.getBounds());
 		myMap.fitBounds(layer.getBounds());		
 	}
-	
-	
-
 	function init() {
 		var basicMap  = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 			maxZoom: 19,
@@ -65,9 +62,9 @@
 			attribution: '&copy; <a href="https://www.arcgis.com/home/item.html?id=c03a526d94704bfb839445e80de95495">ESRI</a>'
 		});
 
-		
 		var stages = L.layerGroup(); 
 		var stops = L.layerGroup();  
+		var events = L.layerGroup();
 	
 		// get stages data from geojson file and add to 'stages' layer...
 		$.getJSON($('link[rel="stages"]').attr("href"), function(data) {
@@ -112,10 +109,24 @@
 				}
 			});		
 		});
-	
+
+		// get events data from geojson file and add to 'stops' layer...
+		$.getJSON($('link[rel="events"]').attr("href"), function(data) {
+			var geojson2 = L.geoJson(data, {
+				onEachFeature: function (feature, layer) {
+					event_name = feature.properties.name;
+					event_date = feature.properties.date;
+					var popUpHTML = '<strong>' + event_name + '</strong><br/>';
+					var popUpHTML = '<strong>Date: ' + event_date + '</strong><br/>';
+					layer.bindPopup(popUpHTML);
+					stops.addLayer(layer);
+				}
+			});		
+		});
 		var overlayMaps = {
     			   "Stages": stages,
-			   "Stops": stops			
+			   "Stops": stops,
+			   "Events": events	
 		};
 		var baseMaps = {
   			"OpenStreetMap": basicMap,
@@ -126,7 +137,7 @@
 		myMap = L.map('map', {
     			center: [50.7, -3.7],
 			zoom: 9,
-			layers: [stages, stops]
+			layers: [stages, stops, events]
 		});
 		basicMap.addTo(myMap);
     		L.control.layers(baseMaps,overlayMaps,{collapsed:false}).addTo(myMap);
