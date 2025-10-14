@@ -128,23 +128,23 @@
 			});		
 		});
 
-		// get extensions data from geojson file and add to 'extensions' layer...
-		$.getJSON($('link[rel="extensions"]').attr("href"), function(data) {
-  			 var geojson = L.geoJson(data, {
-        	  	onEachFeature: function (feature, layer) {
-				var extensionName = feature.properties.name;
-				var extensionDesc = feature.properties.desc;
-				var popUpHTML = '<strong>' + extensionName + '</strong><br/>';
-				popUpHTML = popUpHTML +	'<br/>' + extensionDesc;
-				layer.bindPopup(popUpHTML);				
-				extension.addLayer(layer);
-               		},
-			style: function(feature) {
-				return {color: 'yellow'}
-    			}
-         		});
-				geojson.addTo(map);
-		});
+		<!-- // get extensions data from geojson file and add to 'extensions' layer... -->
+		<!-- $.getJSON($('link[rel="extensions"]').attr("href"), function(data) { -->
+  			 <!-- var geojson = L.geoJson(data, { -->
+        	  	<!-- onEachFeature: function (feature, layer) { -->
+				<!-- var extensionName = feature.properties.name; -->
+				<!-- var extensionDesc = feature.properties.desc; -->
+				<!-- var popUpHTML = '<strong>' + extensionName + '</strong><br/>'; -->
+				<!-- popUpHTML = popUpHTML +	'<br/>' + extensionDesc; -->
+				<!-- layer.bindPopup(popUpHTML);				 -->
+				<!-- extension.addLayer(layer); -->
+               		<!-- }, -->
+			<!-- style: function(feature) { -->
+				<!-- return {color: 'yellow'} -->
+    			<!-- } -->
+         		<!-- }); -->
+				<!-- geojson.addTo(map); -->
+		<!-- }); -->
 		
 
 
