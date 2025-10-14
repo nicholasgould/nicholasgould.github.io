@@ -127,9 +127,10 @@
 					stops.addLayer(layer);
 				}
 			});		
+			document.getElementById('stops').innerHTML = selectOptions;
 		});
 		console.log(selectOptions);
-		document.getElementById('stops').innerHTML = selectOptions;
+		
 
 
 		// get extensions data from geojson file and add to 'extensions' layer...
