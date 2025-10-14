@@ -121,7 +121,7 @@
 					stop_name = feature.properties.stop;
 					var layerId = stops.getLayerId(layer);
 					console.log(layerId);
-					selectOptions += 'option value="' + layerId + '">' + stop_name + '</option>';
+					selectOptions += '<option value="' + layerId + '">' + stop_name + '</option>';
 					var popUpHTML = feature.properties.stop;
 					layer.bindPopup(popUpHTML);
 					stops.addLayer(layer);
