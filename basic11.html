@@ -119,7 +119,7 @@
                         	},				
 				onEachFeature: function (feature, layer) {
 					stop_name = feature.properties.stop;
-					layerID.getLayerId(layer);
+					var layerId = stops.getLayerId(layer);
 					selectOptions += 'option value="' + layerId + '">' + stop_name + '</option>';
 					var popUpHTML = feature.properties.stop;
 					layer.bindPopup(popUpHTML);
