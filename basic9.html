@@ -136,7 +136,7 @@
 				extensions.addLayer(layer);
                		},
 			style: function(feature) {
-				return {color: 'blue', dasharray: '5,10'}
+				return {dasharray: '5,10', color: 'red', weight: '10'}
     			}
          		});				
 		});
@@ -165,7 +165,7 @@
 			});		
 		});
 		var overlayMaps = {
-    			   "Stages": stages,
+			   "Stages": stages,
 			   "Stops": stops,
 			   "Events": events	
 		};
