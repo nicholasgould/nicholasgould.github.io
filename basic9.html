@@ -27,7 +27,7 @@
 	</style>
 	<link rel="stages" type="application/json" href="stages_v2.json">
 	<link rel="stops" type="application/json" href="stops_v2.json">
-	<link rel="stops" type="application/json" href="extensions.json">
+	<link rel="extensions" type="application/json" href="extensions.json">
 	<link rel="events" type="application/json" href="events.json">
 
 <script>
@@ -136,13 +136,12 @@
 				var extensionDesc = feature.properties.desc;
 				var popUpHTML = '<strong>' + extensionName + '</strong><br/>';
 				popUpHTML = popUpHTML +	'<br/>' + extensionDesc;
-				layer.bindPopup(popUpHTML);
-				layer.bindTooltip('Stage:' + stageID);				
+				layer.bindPopup(popUpHTML);				
 				extension.addLayer(layer);
                		},
 			style: function(feature) {
 				return {color: 'yellow'}
-    			}  
+    			}
          		});
 				geojson.addTo(map);
 		});
