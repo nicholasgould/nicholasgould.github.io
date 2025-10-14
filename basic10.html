@@ -25,8 +25,9 @@
 			max-height: 100%;
 		}
 	</style>
-	<link rel="stages" type="application/json" href="stages.json">
-	<link rel="stops" type="application/json" href="stops.json">
+	<link rel="stages" type="application/json" href="stages_v2.json">
+	<link rel="stops" type="application/json" href="stops_v2.json">
+	<link rel="extensions" type="application/json" href="extensions.json">
 	<link rel="events" type="application/json" href="events.json">
 
 <script>
@@ -75,23 +76,25 @@
 
 		var stages = L.layerGroup(); 
 		var stops = L.layerGroup();  
+		var extensions = L.layerGroup();  
 		var events = L.layerGroup();
+		
 	
 		// get stages data from geojson file and add to 'stages' layer...
 		$.getJSON($('link[rel="stages"]').attr("href"), function(data) {
   			 var geojson = L.geoJson(data, {
         	  	onEachFeature: function (feature, layer) {
 				var stageID = feature.properties.number;
-				var leader = feature.properties.leader;
+				var leader = feature.properties.leader;				
 				if (leader === null) {leader = 'TBC'}
-				var walk_date = feature.properties.walk_date;
-				if (walk_date === null) {walk_date = 'TBC'}
+				var walk_day = feature.properties.walk_day;
+				if (walk_day === null) {walk_day = 'TBC'}
 				var link = feature.properties.link;
 				var popUpHTML = '<strong>Stage: ' + stageID + '</strong><br/>';
 				popUpHTML = popUpHTML +	'<br/>' + feature.properties.starting + ' TO ' + feature.properties.ending;
 				popUpHTML = popUpHTML + '<br/>DISTANCE: ' + feature.properties.distance + ' miles';
 				popUpHTML = popUpHTML + '<br/>LEADER: <em>' + leader + '</em>';
-				popUpHTML = popUpHTML + '<br/>WALK DATE: <strong>' + walk_date + '</strong>';
+				popUpHTML = popUpHTML + '<br/>WALK DATE: <strong>' + walk_day + '</strong>';
 				popUpHTML = popUpHTML + '<br/><a href=\'' + link + '\'>link to SWCP</a>';
                    		layer.bindPopup(popUpHTML);
 				layer.bindTooltip('Stage:' + stageID);
@@ -102,7 +105,7 @@
 			style: function(feature) {
 				return {color: 'blue'}			
     			}  
-         		});	
+         		});
 		});
 	
 		// get stops data from geojson file and add to 'stops' layer...
@@ -121,7 +124,27 @@
 			});		
 		});
 
-		// get events data from geojson file and add to 'stops' layer...
+		// get extensions data from geojson file and add to 'extensions' layer...
+		$.getJSON($('link[rel="extensions"]').attr("href"), function(data) {
+  			 var geojson = L.geoJson(data, {
+        	  	onEachFeature: function (feature, layer) {
+				var extensionName = feature.properties.name;
+				var extensionDesc = feature.properties.desc;
+				var popUpHTML = '<strong>' + extensionName + '</strong><br/>';
+				popUpHTML = popUpHTML +	'<br/>' + extensionDesc;
+				layer.bindPopup(popUpHTML);	
+				layer.on({mouseover: highlightFeature, mouseout: resetHighlight});				
+				extensions.addLayer(layer);
+               		},
+			style: function(feature) {
+				return {dashArray: '5,10', color: 'blue', weight: '3'}
+    			}
+         		});	
+		});
+		
+
+
+		// get events data from geojson file and add to 'events' layer...
 		$.getJSON($('link[rel="events"]').attr("href"), function(data) {
 			var geojson3 = L.geoJson(data, {
 				pointToLayer: function (feature, latlng) {
@@ -143,7 +166,7 @@
 			});		
 		});
 		var overlayMaps = {
-    			   "Stages": stages,
+			   "Stages": stages,
 			   "Stops": stops,
 			   "Events": events	
 		};
@@ -156,7 +179,7 @@
 		myMap = L.map('map', {
     			center: [50.7, -3.7],
 			zoom: 9,
-			layers: [stages, stops, events]
+			layers: [stages, extensions, stops, events]
 		});
 		basicMap.addTo(myMap);
     		L.control.layers(baseMaps,overlayMaps,{collapsed:false}).addTo(myMap);
@@ -168,3 +191,4 @@
 	<div id="map" style="width: 100%; height: 100%;"></div>
 </body>
 </html>
+
