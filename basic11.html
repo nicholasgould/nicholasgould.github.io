@@ -120,7 +120,7 @@
 				onEachFeature: function (feature, layer) {
 					stop_name = feature.properties.stop;
 					layerID.getLayerId(layer);
-					selectOptions += 'option value="' + layerId + '">' + stop_name + '</option>''
+					selectOptions += 'option value="' + layerId + '">' + stop_name + '</option>';
 					var popUpHTML = feature.properties.stop;
 					layer.bindPopup(popUpHTML);
 					stops.addLayer(layer);
