@@ -132,13 +132,14 @@
 				var extensionDesc = feature.properties.desc;
 				var popUpHTML = '<strong>' + extensionName + '</strong><br/>';
 				popUpHTML = popUpHTML +	'<br/>' + extensionDesc;
-				layer.bindPopup(popUpHTML);				
+				layer.bindPopup(popUpHTML);	
+				layer.on({mouseover: highlightFeature, mouseout: resetHighlight});				
 				extensions.addLayer(layer);
                		},
 			style: function(feature) {
 				return {dashArray: '5,10', color: 'blue', weight: '3'}
     			}
-         		});				
+         		});	
 		});
 		
 
