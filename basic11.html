@@ -125,11 +125,10 @@
 					var popUpHTML = feature.properties.stop;
 					layer.bindPopup(popUpHTML);
 					stops.addLayer(layer);
-				}
-				document.getElementById('stops').innerHTML = selectOptions;
-				console.log(selectOptions);
+				}				
 			});		
-			
+			document.getElementById('stops').innerHTML = selectOptions;
+			console.log(selectOptions);
 		});
 		
 		
