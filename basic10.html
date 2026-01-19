@@ -123,8 +123,7 @@
 				}
 			});		
 		});
-
-		/*
+		
 		// get extensions data from geojson file and add to 'extensions' layer...
 		$.getJSON($('link[rel="extensions"]').attr("href"), function(data) {
   			 var geojson = L.geoJson(data, {
@@ -142,9 +141,8 @@
     			}
          		});	
 		});
-		*/
 
-
+		/*
 		// get events data from geojson file and add to 'events' layer...
 		$.getJSON($('link[rel="events"]').attr("href"), function(data) {
 			var geojson3 = L.geoJson(data, {
@@ -166,10 +164,12 @@
 				}
 			});		
 		});
+		*/
+		
 		var overlayMaps = {
 			   "Stages": stages,
-			   "Stops": stops,
-			   "Events": events	
+			   "Stops": stops
+			  // "Events": events	
 		};
 		var baseMaps = {
   			"OpenStreetMap": basicMap,
@@ -180,7 +180,7 @@
 		myMap = L.map('map', {
     			center: [50.7, -3.7],
 			zoom: 9,
-			layers: [stages, extensions, stops, events]
+			layers: [stages, extensions, stops]
 		});
 		basicMap.addTo(myMap);
     		L.control.layers(baseMaps,overlayMaps,{collapsed:false}).addTo(myMap);
@@ -192,6 +192,7 @@
 	<div id="map" style="width: 100%; height: 100%;"></div>
 </body>
 </html>
+
 
 
 
